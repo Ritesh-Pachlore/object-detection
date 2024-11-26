@@ -9,3 +9,5 @@ flask>=2.0.0
 protobuf<4,>=3.9.2 
 streamlit=1.40.1
 mediapipe==0.10.11
+opencv-contrib-python==4.10.0.84
+cvzone==1.6.1
