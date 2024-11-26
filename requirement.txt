@@ -1,5 +1,5 @@
-pip install opencv-contrib-python
-pip install cvzone
-pip install numpy
-pip install mediapipe
-pip install streamlit
+open-contrib-python=4.10.0.84
+cvzone=1.6.1
+numpy=1.24.3
+mediapipe=0.10.11
+streamlit=1.40.1
