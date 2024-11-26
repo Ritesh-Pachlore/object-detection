@@ -1,0 +1,5 @@
+pip install opencv-contrib-python
+pip install cvzone
+pip install numpy
+pip install mediapipe
+pip install streamlit
