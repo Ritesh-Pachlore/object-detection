@@ -1,9 +1,14 @@
-import cv2
+# Import required libraries
 import streamlit as st
-from cvzone.HandTrackingModule import HandDetector
-from cvzone.ClassificationModule import Classifier
-import numpy as np
-import math
+
+try:
+    import cv2
+    from cvzone.HandTrackingModule import HandDetector
+    from cvzone.ClassificationModule import Classifier
+    import numpy as np
+    import math
+except ModuleNotFoundError as e:
+    st.error(f"Missing library: {e}. Please install all dependencies in your environment.")
 
 # Constants
 offset = 20
@@ -22,11 +27,14 @@ labels = [
 ]
 
 # Load Hand Detector and Classifier
-detector = HandDetector(maxHands=1)
-classifier = Classifier(
-    r"Model/keras_model.h5",
-    r"Model/labels.txt",
-)
+try:
+    detector = HandDetector(maxHands=1)
+    classifier = Classifier(
+        r"Model/keras_model.h5",
+        r"Model/labels.txt",
+    )
+except Exception as e:
+    st.error(f"Error loading HandDetector or Classifier: {e}")
 
 # New CSS Styling for Overall UI Background
 st.markdown(
@@ -83,18 +91,19 @@ cap = None
 
 
 def process_frame(img, threshold):
+    """Process webcam frame for hand detection and classification."""
     imgOutput = img.copy()
-    hands, img = detector.findHands(img)
-    if hands:
-        hand = hands[0]
-        x, y, w, h = hand["bbox"]
+    try:
+        hands, img = detector.findHands(img)
+        if hands:
+            hand = hands[0]
+            x, y, w, h = hand["bbox"]
 
-        imgWhite = np.ones((imgSize, imgSize, 3), np.uint8) * 255
-        imgCrop = img[y - offset : y + h + offset, x - offset : x + w + offset]
+            imgWhite = np.ones((imgSize, imgSize, 3), np.uint8) * 255
+            imgCrop = img[y - offset : y + h + offset, x - offset : x + w + offset]
 
-        aspectRatio = h / w
+            aspectRatio = h / w
 
-        try:
             if aspectRatio > 1:
                 k = imgSize / h
                 wCal = math.ceil(k * w)
@@ -142,8 +151,8 @@ def process_frame(img, threshold):
                 color,
                 4,
             )
-        except Exception:
-            pass
+    except Exception as e:
+        st.error(f"Error processing frame: {e}")
 
     return imgOutput
 
