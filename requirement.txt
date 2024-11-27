@@ -1,5 +1,5 @@
 tensorflow==2.4.1
-opencv-python==4.8.1.78 --force-reinstall
+opencv-python-headless
 numpy==1.25.0
 matplotlib>=3.4.0
 Pillow>=8.0.0
